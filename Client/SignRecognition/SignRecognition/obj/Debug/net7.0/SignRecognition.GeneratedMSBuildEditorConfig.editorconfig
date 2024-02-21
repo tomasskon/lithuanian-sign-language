@@ -1,0 +1,49 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = SignRecognition
+build_property.RootNamespace = SignRecognition
+build_property.ProjectDir = C:\Users\Tomas\Bakis\repo\lithuanian-sign-language\Client\SignRecognition\SignRecognition\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Tomas\Bakis\repo\lithuanian-sign-language\Client\SignRecognition\SignRecognition
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-p17wdqff84
+
+[C:/Users/Tomas/Bakis/repo/lithuanian-sign-language/Client/SignRecognition/SignRecognition/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-vv84p3tc9j
