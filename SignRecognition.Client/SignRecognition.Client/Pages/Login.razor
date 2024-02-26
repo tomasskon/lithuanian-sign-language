@@ -1,0 +1,18 @@
+﻿@page "/login"
+@using SignRecognition.Client.Services
+@attribute [AllowAnonymous]
+
+@inject IJSRuntime JsRuntime
+@inject AuthStateProviderService AuthStateProviderService
+
+
+<button type="button" @onclick="SignInWithGoogleAsync">Sign In with Google</button>
+
+@code {
+    public async Task SignInWithGoogleAsync()
+    {
+        var authProvider = DotNetObjectReference.Create(AuthStateProviderService);
+        await JsRuntime.InvokeVoidAsync("initializeGoogleOath", "388224131394-ld89uslam75702r3pvgm27nhrq68bcfr.apps.googleusercontent.com", authProvider);
+        await JsRuntime.InvokeVoidAsync("googleOathPrompt");
+    }
+}

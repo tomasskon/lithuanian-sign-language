@@ -1,0 +1,6 @@
+﻿@page "/logout"
+@using SignRecognition.Client.Services
+@inject AuthStateProviderService AuthStateProviderService
+
+<h3>Logout</h3>
+<button @onclick="AuthStateProviderService.Logout">Logout</button>
