@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Server", "SignRecognition.Server\SignRecognition.Server.csproj", "{499C7DE3-C529-4459-9FDC-090004BC7F6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Domain", "SignRecognition.Domain\SignRecognition.Domain.csproj", "{1523D992-06D5-4F0C-ABF0-7E2D36435D03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Service", "SignRecognition.Service\SignRecognition.Service.csproj", "{9EDB5905-0839-438E-95EE-72E74D671905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Repository", "SignRecognition.Repository\SignRecognition.Repository.csproj", "{0F57C293-43D7-403D-9206-567D457DE7DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{499C7DE3-C529-4459-9FDC-090004BC7F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499C7DE3-C529-4459-9FDC-090004BC7F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499C7DE3-C529-4459-9FDC-090004BC7F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499C7DE3-C529-4459-9FDC-090004BC7F6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1523D992-06D5-4F0C-ABF0-7E2D36435D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1523D992-06D5-4F0C-ABF0-7E2D36435D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1523D992-06D5-4F0C-ABF0-7E2D36435D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1523D992-06D5-4F0C-ABF0-7E2D36435D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EDB5905-0839-438E-95EE-72E74D671905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EDB5905-0839-438E-95EE-72E74D671905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EDB5905-0839-438E-95EE-72E74D671905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EDB5905-0839-438E-95EE-72E74D671905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F57C293-43D7-403D-9206-567D457DE7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F57C293-43D7-403D-9206-567D457DE7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F57C293-43D7-403D-9206-567D457DE7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F57C293-43D7-403D-9206-567D457DE7DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
