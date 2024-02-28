@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Service", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Repository", "SignRecognition.Repository\SignRecognition.Repository.csproj", "{0F57C293-43D7-403D-9206-567D457DE7DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRecognition.Contract", "SignRecognition.Contract\SignRecognition.Contract.csproj", "{1548D453-F75D-4592-BA86-7119C05D4ABE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{0F57C293-43D7-403D-9206-567D457DE7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F57C293-43D7-403D-9206-567D457DE7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F57C293-43D7-403D-9206-567D457DE7DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1548D453-F75D-4592-BA86-7119C05D4ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1548D453-F75D-4592-BA86-7119C05D4ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1548D453-F75D-4592-BA86-7119C05D4ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1548D453-F75D-4592-BA86-7119C05D4ABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
