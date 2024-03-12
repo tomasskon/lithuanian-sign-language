@@ -6,21 +6,39 @@ using SignRecognition.Repository.Repositories.Interface;
 
 namespace SignRecognition.Repository.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository : GenericRepository<UserEntity>, IUserRepository
 {
-    private readonly DbSet<UserEntity> _dbSet;
-    private readonly IMapper _mapper;
-
-    public UserRepository(DatabaseContext context, IMapper mapper)
+    public UserRepository(DatabaseContext context, IMapper repoMapper) 
+        : base(context, repoMapper)
     {
-        _mapper = mapper;
-        _dbSet = context.Users;
     }
 
+    public async Task<Guid> CreateAsync(User user)
+    {
+        var userEntity = RepoMapper.Map<UserEntity>(user);
+
+        await Set.AddAsync(userEntity);
+        await Context.SaveChangesAsync();
+
+        return userEntity.Id;
+    }
+    
     public async Task<List<User>> GetAllAsync()
     {
-        var userEntities = await _dbSet.ToListAsync();
+        var userEntities = await Set.ToListAsync();
 
-        return _mapper.Map<List<User>>(userEntities);
+        return RepoMapper.Map<List<User>>(userEntities);
+    }
+
+    public async Task<User> GetByEmailAsync(string email)
+    {
+        var userEntity = await Set.SingleOrDefaultAsync(x => x.Email == email);
+
+        return RepoMapper.Map<User>(userEntity);
+    }
+
+    public async Task<bool> CheckIfEmailIsUsedAsync(string email)
+    {
+        return await Set.AnyAsync(x => x.Email == email);
     }
 }

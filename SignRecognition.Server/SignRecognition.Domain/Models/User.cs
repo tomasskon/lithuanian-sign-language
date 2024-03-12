@@ -2,8 +2,11 @@
 
 public class User
 {
-    public Guid UserId { get; set; }
-    public Guid FirstName { get; set; }
-    public Guid LastName { get; set; }
-    public Guid Email { get; set; }
+    public Guid Id { get; set; }
+    
+    public string FirstName { get; set; }
+    
+    public string LastName { get; set; }
+    
+    public string Email { get; set; }
 }

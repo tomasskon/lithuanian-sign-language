@@ -7,7 +7,8 @@ public static class RepositoryRegistration
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserPasswordRepository, UserPasswordRepository>();
         
         return services;
     }

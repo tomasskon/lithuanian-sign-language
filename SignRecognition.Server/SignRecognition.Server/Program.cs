@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SignRecognition.Domain.Configurations;
 using SignRecognition.Repository;
 using SignRecognition.Server.Module;
 
@@ -10,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton(builder.Configuration.GetSection("JwtToken").Get<JwtTokenConfiguration>());
 
 builder.Services.AddServices();
 builder.Services.AddRepositories();
