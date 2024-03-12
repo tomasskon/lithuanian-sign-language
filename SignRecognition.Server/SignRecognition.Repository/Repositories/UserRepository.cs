@@ -13,14 +13,14 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
     }
 
-    public async Task<Guid> CreateAsync(User user)
+    public async Task<User> CreateAsync(User user)
     {
         var userEntity = RepoMapper.Map<UserEntity>(user);
 
         await Set.AddAsync(userEntity);
         await Context.SaveChangesAsync();
 
-        return userEntity.Id;
+        return RepoMapper.Map<User>(userEntity);
     }
     
     public async Task<List<User>> GetAllAsync()

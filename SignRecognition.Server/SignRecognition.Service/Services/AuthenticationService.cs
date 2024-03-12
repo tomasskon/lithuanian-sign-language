@@ -29,17 +29,17 @@ namespace SignRecognition.Service.Services
                 throw new BadUserException($"The user id: {user.Id} does not have a password");
                 
             _passwordService.ValidatePassword(password, userPassword.PasswordHash, userPassword.PasswordSalt);
-            return _tokenService.GetJwtToken(user.Id);
+            return _tokenService.GetJwtToken(user);
         }
 
         public async Task<string> UserRegister(User user, string password)
         {
-            var userId = await _userService.CreateAsync(user);
+            var createdUser = await _userService.CreateAsync(user);
 
             var (passwordHash, passwordSalt) = _passwordService.CreateHashedPassword(password);
-            await _userPasswordRepository.Create(passwordHash, passwordSalt, userId);
+            await _userPasswordRepository.Create(passwordHash, passwordSalt, createdUser.Id);
             
-            return _tokenService.GetJwtToken(userId);
+            return _tokenService.GetJwtToken(createdUser);
         }
     }
 }

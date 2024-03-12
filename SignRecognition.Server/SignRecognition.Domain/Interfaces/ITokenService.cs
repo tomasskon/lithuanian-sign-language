@@ -1,7 +1,9 @@
+using SignRecognition.Domain.Models;
+
 namespace SignRecognition.Domain.Interfaces
 {
     public interface ITokenService
     {
-        string GetJwtToken(Guid userId);
+        string GetJwtToken(User user);
     }
 }

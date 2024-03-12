@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using SignRecognition.Domain.Configurations;
 using SignRecognition.Domain.Interfaces;
+using SignRecognition.Domain.Models;
 
 namespace SignRecognition.Service.Services
 {
@@ -18,7 +19,7 @@ namespace SignRecognition.Service.Services
             _tokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public string GetJwtToken(Guid userId)
+        public string GetJwtToken(User user)
         {
             var tokenKey = Encoding.UTF8.GetBytes(_jwtConfiguration.Key);
             
@@ -28,7 +29,10 @@ namespace SignRecognition.Service.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),SecurityAlgorithms.HmacSha256Signature),
                 Claims = new Dictionary<string, object>
                 {
-                    { "UserId", userId },
+                    { "Id", user.Id },
+                    { "FirstName", user.FirstName },
+                    { "LastName", user.LastName },
+                    { "Email", user.Email }
                 }
             };
             

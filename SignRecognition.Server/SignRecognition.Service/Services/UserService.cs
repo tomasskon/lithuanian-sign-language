@@ -15,7 +15,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<Guid> CreateAsync(User user)
+    public async Task<User> CreateAsync(User user)
     {
         if (await _userRepository.CheckIfEmailIsUsedAsync(user.Email))
             throw new UserEmailAlreadyUsedException($"User email already used: {user.Email}");
