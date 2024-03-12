@@ -71,6 +71,20 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+var  corspolicy = "_corsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corspolicy,
+        policy  =>
+        {
+            policy.WithOrigins(
+                "http://localhost:5049",
+                "http://localhost:44338");
+            policy.AllowAnyHeader();
+            policy.AllowAnyOrigin();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -85,5 +99,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(corspolicy);
 
 app.Run();
