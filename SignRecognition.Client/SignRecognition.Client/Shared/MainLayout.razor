@@ -1,5 +1,8 @@
 ﻿@using MudBlazor
+@using SignRecognition.Client.Services
 @inherits LayoutComponentBase
+
+@inject AuthStateProviderService AuthStateProviderService
 
 <MudThemeProvider @bind-IsDarkMode="@_darkMode" />
 <MudDialogProvider/>
@@ -8,8 +11,17 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudText Typo="Typo.h5" Class="ml-3">SR</MudText>
-        <MudSpacer />
         <MudIconButton Href="/" Icon="@Icons.Material.Filled.Home" aria-label="home"></MudIconButton>
+        <MudSpacer />
+        @if (!AuthStateProviderService.IsAuthenticated())
+        {
+            <MudButton Href="/login" Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>
+        }
+        else
+        {
+            <MudText Typo="Typo.subtitle1">@($"{AuthStateProviderService.GetCurrentUser.FirstName} {AuthStateProviderService.GetCurrentUser.LastName}")</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" aria-label="home" OnClick="Logout"></MudIconButton>
+        }
     </MudAppBar>
     <MudMainContent>
         @Body
@@ -19,4 +31,9 @@
 @code {
     private bool _darkMode = true;
 
+    private async Task Logout()
+    {
+        await AuthStateProviderService.Logout();  
+        StateHasChanged();
+    }
 }

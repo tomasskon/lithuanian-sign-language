@@ -23,11 +23,14 @@ public class AuthenticationService : Interfaces.IAuthenticationService
             return null;
         
         var jwtSecurityToken = _tokenHandler.ReadJwtToken(token);
-        await _sessionStorageService.SetItemAsync("token", token);
+        await _sessionStorageService.SetItemAsStringAsync("token", token);
 
+        var claims = jwtSecurityToken.Claims.ToDictionary(x => x.Type, v => v.Value);
         return new AuthenticatedUser
         {
-            Email = jwtSecurityToken.Claims.First(c => c.Type == "email").Value,
+            Email = claims["Email"],
+            FirstName = claims["FirstName"],
+            LastName = claims["LastName"]
         };
     }
     
@@ -45,11 +48,18 @@ public class AuthenticationService : Interfaces.IAuthenticationService
 
         return user;
     }
-    
-    public AuthenticatedUser AuthenticatedUserFromClaimsPrincipal(ClaimsPrincipal principal) => new()
+
+    public AuthenticatedUser AuthenticatedUserFromClaimsPrincipal(ClaimsPrincipal principal)
     {
-        Email = principal.FindFirst(ClaimTypes.Name)?.Value ?? "",
-    };
+        var claims = principal.Claims.ToDictionary(x => x.Type, v => v.Value);
+
+        return new AuthenticatedUser
+        {
+            Email = claims["Email"],
+            FirstName = claims["FirstName"],
+            LastName = claims["LastName"],
+        };
+    }
 
     private ClaimsPrincipal CreateClaimsPrincipalFromToken(string token)
     {

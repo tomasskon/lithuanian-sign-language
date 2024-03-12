@@ -1,18 +1,97 @@
 ﻿@page "/login"
-@using SignRecognition.Client.Services
+
 @attribute [AllowAnonymous]
+@using MudBlazor
+@using SignRecognition.Client.HttpClients.Interface
+@using SignRecognition.Client.Services
+@using SignRecognition.Client.ViewModels.Authentication
+@using SignRecognition.Contract.Authentication
 
-@inject IJSRuntime JsRuntime
-@inject AuthStateProviderService AuthStateProviderService
+@inject IAuthenticationHttpClient AuthenticationHttpClient
+@inject AuthStateProviderService AuthStateProvider
+@inject NavigationManager NavigationManager
 
-
-<button type="button" @onclick="SignInWithGoogleAsync">Sign In with Google</button>
+<MudGrid Justify="Justify.Center" Class="pt-lg-12">
+    <MudItem sm="3">
+        <EditForm Model="@_loginViewModel" OnValidSubmit="OnValidUserLogin">
+            <DataAnnotationsValidator/>
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="_loginViewModel.Email" For="@(() => _loginViewModel.Email)"/>
+                    <MudTextField Label="Password" Class="mt-3"
+                                  @bind-Value="_loginViewModel.Password" For="@(() => _loginViewModel.Password)" InputType="InputType.Password"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    </MudItem>
+    <MudItem sm="3">
+        <EditForm Model="@_registrationViewModel" OnValidSubmit="OnValidUserRegister">
+            <DataAnnotationsValidator/>
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="First name"
+                                  @bind-Value="_registrationViewModel.FirstName" For="@(() => _registrationViewModel.FirstName)"/>
+                    <MudTextField Label="Last Name" Class="mt-3"
+                                  @bind-Value="_registrationViewModel.LastName" For="@(() => _registrationViewModel.LastName)"/>
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="_registrationViewModel.Email" For="@(() => _registrationViewModel.Email)" InputType="InputType.Email"/>
+                    <MudTextField Label="Password" Class="mt-3"
+                                  @bind-Value="_registrationViewModel.Password" For="@(() => _registrationViewModel.Password)" InputType="InputType.Password"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
 
 @code {
-    public async Task SignInWithGoogleAsync()
+    private UserLoginViewModel _loginViewModel = new();
+    private UserRegistrationViewModel _registrationViewModel = new();
+    
+    private async Task OnValidUserRegister(EditContext context)
     {
-        var authProvider = DotNetObjectReference.Create(AuthStateProviderService);
-        await JsRuntime.InvokeVoidAsync("initializeGoogleOath", "388224131394-ld89uslam75702r3pvgm27nhrq68bcfr.apps.googleusercontent.com", authProvider);
-        await JsRuntime.InvokeVoidAsync("googleOathPrompt");
+        var response = await AuthenticationHttpClient.RegisterUserAsync(new UserRegisterContract
+        {
+            FirstName = _registrationViewModel.FirstName,
+            LastName = _registrationViewModel.LastName,
+            Email = _registrationViewModel.Email,
+            Password = _registrationViewModel.Password
+        });
+
+        var a = 6;
+        if (response is null)
+             a = 10;
+
+        await AuthStateProvider.Login(response);
+        StateHasChanged();
+        NavigationManager.NavigateTo("/");
+    }
+    
+    private async Task OnValidUserLogin(EditContext context)
+    {
+        var response = await AuthenticationHttpClient.LoginUserAsync(new UserLoginContract()
+        {
+            EmailAddress = _loginViewModel.Email,
+            Password = _loginViewModel.Password
+        });
+
+        var a = 6;
+        if (response is null)
+            a = 10;
+
+        await AuthStateProvider.Login(response);
+        StateHasChanged();
+        NavigationManager.NavigateTo("/");
     }
 }

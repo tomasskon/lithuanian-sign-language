@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.JSInterop;
+using Microsoft.IdentityModel.Tokens;
 using SignRecognition.Client.Models;
 using SignRecognition.Client.Services.Interfaces;
 
@@ -16,11 +16,10 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
         AuthenticationStateChanged += OnAuthenticationStateChangedAsync;
         _authenticationService = authenticationService;
     }
-
-    [JSInvokable]
-    public async Task GoogleLogin(GoogleAuthResponse googleAuthResponse)
+    
+    public async Task Login(string token)
     {
-        var user = await _authenticationService.AuthenticateUser(googleAuthResponse.Credential);
+        var user = await _authenticationService.AuthenticateUser(token);
         _currentUser = user;
 
         if (user is not null)
@@ -48,16 +47,28 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
     }
     
     public void Dispose() => AuthenticationStateChanged -= OnAuthenticationStateChangedAsync;
-    
+
+    public bool IsAuthenticated() => _currentUser != null;
+
+    public AuthenticatedUser GetCurrentUser => _currentUser;
+
     private async void OnAuthenticationStateChangedAsync(Task<AuthenticationState> task)
     {
         var authenticationState = await task;
+
+        if (authenticationState.User.Claims.IsNullOrEmpty())
+        {
+            _currentUser = null;
+            return;
+        }
+        
         _currentUser = _authenticationService.AuthenticatedUserFromClaimsPrincipal(authenticationState.User);
     }
 
     private ClaimsPrincipal ToClaimsPrincipal() => new(new ClaimsIdentity(new Claim[]
         {
-            new (ClaimTypes.Name, _currentUser.Email),
-        }, 
-        "SignRecognition"));
+            new ("Email", _currentUser.Email),
+            new ("FirstName", _currentUser.FirstName),
+            new ("LastName", _currentUser.LastName),
+        }, "SignRecognition"));
 }
