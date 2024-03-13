@@ -1,21 +1,21 @@
 using AutoMapper;
-using MailSystem.Exception;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignRecognition.Contract;
 using SignRecognition.Contract.Authentication;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
-using SignRecognition.Domain.Models;
 
 namespace SignRecognition.Server.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
-    public class AuthenticationController : ControllerBase
+    public class VideoController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
         
-        public AuthenticationController(IAuthenticationService authenticationService, IMapper mapper)
+        public VideoController(IAuthenticationService authenticationService, IMapper mapper)
         {
             _authenticationService = authenticationService;
             _mapper = mapper;
@@ -43,22 +43,6 @@ namespace SignRecognition.Server.Controllers
             catch (InvalidPasswordException ex)
             {
                 return BadRequest(new StandardExceptionResponse(ex)); 
-            }
-        }
-        
-        /// <response code="400">UserEmailAlreadyUsedException</response>
-        [HttpPost]
-        public async Task<IActionResult> UserRegister([FromBody] UserRegisterContract userRegisterContract)
-        {
-            try
-            {
-                var user = _mapper.Map<User>(userRegisterContract);
-            
-                return Ok(await _authenticationService.UserRegisterAsync(user, userRegisterContract.Password));
-            }
-            catch (UserEmailAlreadyUsedException ex)
-            {
-                return BadRequest(new StandardExceptionResponse(ex));
             }
         }
     }

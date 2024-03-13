@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SignRecognition.Contract.Authentication;
+using SignRecognition.Contract.Signs;
 using SignRecognition.Contract.User;
 using SignRecognition.Domain.Models;
 using SignRecognition.Repository.Entities;
@@ -12,8 +13,10 @@ public class MappingProfile : Profile
     {
         CreateMap<User, UserEntity>().ReverseMap();
         CreateMap<UserPassword, UserPasswordEntity>().ReverseMap();
-
+        CreateMap<SignEntity, Sign>().ReverseMap();
+        
         CreateMap<User, UserContract>().ReverseMap();
         CreateMap<User, UserRegisterContract>().ReverseMap();
+        CreateMap<Sign, AddSignsContract>().ReverseMap();
     }
 }

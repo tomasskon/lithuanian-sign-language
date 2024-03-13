@@ -11,7 +11,8 @@ public static class ServiceRegistration
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordService, PasswordService>();
-
+        services.AddScoped<ISignService, SignService>();
+        
         return services;
     }
 }

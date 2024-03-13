@@ -9,6 +9,7 @@ public static class RepositoryRegistration
     {
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserPasswordRepository, UserPasswordRepository>();
+        services.AddTransient<ISignRepository, SignRepository>();
         
         return services;
     }

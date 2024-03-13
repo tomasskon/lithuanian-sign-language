@@ -14,7 +14,7 @@ namespace SignRecognition.Repository.Repositories
         {
         }
 
-        public async Task<Guid> Create(string passwordHash, byte[] passwordSalt, Guid userId)
+        public async Task<Guid> CreateAsync(string passwordHash, byte[] passwordSalt, Guid userId)
         {
             var userPasswordEntity = new UserPasswordEntity
             {
@@ -29,7 +29,7 @@ namespace SignRecognition.Repository.Repositories
             return userPasswordEntity.Id;
         }
 
-        public async Task<UserPassword> GetByUserId(Guid userId)
+        public async Task<UserPassword> GetByUserIdAsync(Guid userId)
         {
             var passwordEntity = await Set.SingleOrDefaultAsync(x => x.User.Id == userId);
 

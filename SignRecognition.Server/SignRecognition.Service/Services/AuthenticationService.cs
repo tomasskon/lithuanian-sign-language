@@ -20,10 +20,10 @@ namespace SignRecognition.Service.Services
             _userPasswordRepository = userPasswordRepository;
         }
 
-        public async Task<string> UserLogin(string emailAddress, string password)
+        public async Task<string> UserLoginAsync(string emailAddress, string password)
         {
             var user = await _userService.GetByEmailAsync(emailAddress);
-            var userPassword = await _userPasswordRepository.GetByUserId(user.Id);
+            var userPassword = await _userPasswordRepository.GetByUserIdAsync(user.Id);
 
             if (userPassword is null)
                 throw new BadUserException($"The user id: {user.Id} does not have a password");
@@ -32,12 +32,12 @@ namespace SignRecognition.Service.Services
             return _tokenService.GetJwtToken(user);
         }
 
-        public async Task<string> UserRegister(User user, string password)
+        public async Task<string> UserRegisterAsync(User user, string password)
         {
             var createdUser = await _userService.CreateAsync(user);
 
             var (passwordHash, passwordSalt) = _passwordService.CreateHashedPassword(password);
-            await _userPasswordRepository.Create(passwordHash, passwordSalt, createdUser.Id);
+            await _userPasswordRepository.CreateAsync(passwordHash, passwordSalt, createdUser.Id);
             
             return _tokenService.GetJwtToken(createdUser);
         }

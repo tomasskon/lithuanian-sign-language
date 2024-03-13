@@ -4,8 +4,8 @@ namespace SignRecognition.Domain.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<string> UserLogin(string emailAddress, string password);
+        Task<string> UserLoginAsync(string emailAddress, string password);
 
-        Task<string> UserRegister(User user, string password);
+        Task<string> UserRegisterAsync(User user, string password);
     }
 }
