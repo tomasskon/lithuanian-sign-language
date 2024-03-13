@@ -1,0 +1,57 @@
+﻿@page "/train/signs"
+
+@attribute [Authorize]
+
+@using MudBlazor
+@using SignRecognition.Client.HttpClients.Interface
+@using AutoMapper
+@using SignRecognition.Client.ViewModels.Sign
+
+@inject ISignHttpClient SignHttpClient
+@inject IMapper Mapper;
+
+@if (_trainableSigns is not null)
+{
+    <MudGrid Justify="Justify.Center" Class="pt-lg-12">
+        <MudItem xs="6">
+            <MudGrid Justify="Justify.FlexStart">
+                @foreach (var trainableSing in _trainableSigns)
+                {
+                    <MudItem xs="4">
+                        <MudCard>
+                            <MudCardHeader>
+                                <MudText Typo="Typo.h6">@trainableSing.SignName.ToUpper()</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <BlazoredVideo
+                                    class="w-100"
+                                    style="max-width:400px; border-radius: 5px"
+                                    controls="controls">
+                                    <source src="@trainableSing.SignVideoUrl" type="video/mp4"/>
+                                </BlazoredVideo>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Href="@($@"/train/signs/{trainableSing.Id}/submit")" Variant="Variant.Text" Color="Color.Primary">Submit data</MudButton>
+                                <MudSpacer />
+                                <MudButton Variant="Variant.Text" Color="Color.Primary">View data</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    private IEnumerable<SignViewModel> _trainableSigns;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await SignHttpClient.GetAllSignsAsync();
+
+        if (response is not null)
+            _trainableSigns = Mapper.Map<IEnumerable<SignViewModel>>(response);
+    }
+
+}

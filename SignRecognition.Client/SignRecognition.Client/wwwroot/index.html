@@ -30,8 +30,50 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="oath.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        window.startRecording = function() {
+            const preview = document.getElementById('preview');
+            const frameRate = 29; // Frames per second
+            const totalFrames = 60; // Total duration in frames
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    preview.srcObject = stream;
+
+                    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+                    const recordedChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            recordedChunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                        const url = URL.createObjectURL(blob);
+
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'recorded-video.webm';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    };
+
+                    mediaRecorder.start();
+
+                    setTimeout(() => {
+                        mediaRecorder.stop();
+                        stream.getTracks().forEach(track => track.stop());
+                    }, (totalFrames / frameRate) * 1000); // Stop recording after the specified number of frames
+                })
+                .catch(error => {
+                    console.error('Error accessing webcam:', error);
+                });
+        };
+    </script>
 </body>
 
 </html>
