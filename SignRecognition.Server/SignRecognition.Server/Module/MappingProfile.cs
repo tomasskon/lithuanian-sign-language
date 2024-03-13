@@ -18,5 +18,6 @@ public class MappingProfile : Profile
         CreateMap<User, UserContract>().ReverseMap();
         CreateMap<User, UserRegisterContract>().ReverseMap();
         CreateMap<Sign, AddSignsContract>().ReverseMap();
+        CreateMap<Sign, SignContract>().ReverseMap();
     }
 }

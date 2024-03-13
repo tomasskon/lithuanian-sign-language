@@ -4,5 +4,7 @@ namespace SignRecognition.Repository.Repositories.Interface;
 
 public interface ISignRepository
 {
-    Task UpsertListOfSignsAsync(IEnumerable<Sign> sings);
+    Task UpsertListAsync(IEnumerable<Sign> sings);
+
+    Task<IEnumerable<Sign>> GetAllAsync();
 }

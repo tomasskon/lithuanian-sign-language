@@ -15,6 +15,11 @@ public class SignService : ISignService
 
     public async Task AddSignsAsync(IEnumerable<Sign> signs)
     {
-        await _signRepository.UpsertListOfSignsAsync(signs);
+        await _signRepository.UpsertListAsync(signs);
+    }
+
+    public async Task<IEnumerable<Sign>> GetAllSignsAsync()
+    {
+        return await _signRepository.GetAllAsync();
     }
 }

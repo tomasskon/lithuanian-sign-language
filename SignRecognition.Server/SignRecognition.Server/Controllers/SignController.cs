@@ -29,5 +29,13 @@ namespace SignRecognition.Server.Controllers
             
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllSigns()
+        {
+            var signs = await _signService.GetAllSignsAsync();
+
+            return Ok(_mapper.Map<IEnumerable<SignContract>>(signs));
+        }
     }
 }

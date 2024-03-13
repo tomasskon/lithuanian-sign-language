@@ -13,7 +13,7 @@ public class SignRepository : GenericRepository<SignEntity>, ISignRepository
     {
     }
 
-    public async Task UpsertListOfSignsAsync(IEnumerable<Sign> sings)
+    public async Task UpsertListAsync(IEnumerable<Sign> sings)
     {
         var signsToUpsert = sings.ToDictionary(x => x.SignName, v => v);
 
@@ -31,5 +31,12 @@ public class SignRepository : GenericRepository<SignEntity>, ISignRepository
         await Set.AddRangeAsync(entitiesToAdd);
 
         await Context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Sign>> GetAllAsync()
+    {
+        var signEntities = await Set.ToListAsync();
+
+        return RepoMapper.Map<IEnumerable<Sign>>(signEntities);
     }
 }   
