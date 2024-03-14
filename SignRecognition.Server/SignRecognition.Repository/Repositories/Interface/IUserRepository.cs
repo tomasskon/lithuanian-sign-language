@@ -11,4 +11,6 @@ public interface IUserRepository
     Task<User> CreateAsync(User user);
 
     Task<bool> CheckIfEmailIsUsedAsync(string email);
+
+    Task<bool> ExistAsync(Guid id);
 }

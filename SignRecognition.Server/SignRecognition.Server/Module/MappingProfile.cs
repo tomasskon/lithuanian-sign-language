@@ -14,6 +14,7 @@ public class MappingProfile : Profile
         CreateMap<User, UserEntity>().ReverseMap();
         CreateMap<UserPassword, UserPasswordEntity>().ReverseMap();
         CreateMap<SignEntity, Sign>().ReverseMap();
+        CreateMap<TrainingDataEntity, TrainingData>().ReverseMap();
         
         CreateMap<User, UserContract>().ReverseMap();
         CreateMap<User, UserRegisterContract>().ReverseMap();

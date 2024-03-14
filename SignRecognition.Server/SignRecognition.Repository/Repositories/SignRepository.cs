@@ -39,4 +39,9 @@ public class SignRepository : GenericRepository<SignEntity>, ISignRepository
 
         return RepoMapper.Map<IEnumerable<Sign>>(signEntities);
     }
+
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await Set.AnyAsync(x => x.Id == id);
+    }
 }   

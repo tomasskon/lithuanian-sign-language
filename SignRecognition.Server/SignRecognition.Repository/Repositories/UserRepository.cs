@@ -41,4 +41,9 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
         return await Set.AnyAsync(x => x.Email == email);
     }
+
+    public async Task<bool> ExistAsync(Guid id)
+    {
+        return await Set.AnyAsync(x => x.Id == id);
+    }
 }

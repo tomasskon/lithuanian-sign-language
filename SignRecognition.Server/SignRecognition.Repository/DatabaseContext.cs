@@ -12,4 +12,5 @@ public class DatabaseContext : DbContext
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<UserPasswordEntity> UserPasswords { get; set; }
     public DbSet<SignEntity> Signs { get; set; }
+    public DbSet<TrainingDataEntity> TrainingData { get; set; }
 }

@@ -5,11 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SignRecognition.Domain.Configurations;
 using SignRecognition.Repository;
+using SignRecognition.Server.Controllers;
 using SignRecognition.Server.Module;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options=> 
+    options.InputFormatters.Add(new ByteArrayInputFormatter()));
+// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));

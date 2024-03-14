@@ -7,4 +7,6 @@ public interface ISignService
     Task AddSignsAsync(IEnumerable<Sign> signs);
 
     Task<IEnumerable<Sign>> GetAllSignsAsync();
+
+    Task<bool> ExistsAsync(Guid id);
 }

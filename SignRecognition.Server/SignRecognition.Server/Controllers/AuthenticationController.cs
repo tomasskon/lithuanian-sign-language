@@ -50,10 +50,10 @@ namespace SignRecognition.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> UserRegister([FromBody] UserRegisterContract userRegisterContract)
         {
+            var user = _mapper.Map<User>(userRegisterContract);
+            
             try
             {
-                var user = _mapper.Map<User>(userRegisterContract);
-            
                 return Ok(await _authenticationService.UserRegisterAsync(user, userRegisterContract.Password));
             }
             catch (UserEmailAlreadyUsedException ex)

@@ -22,4 +22,9 @@ public class SignService : ISignService
     {
         return await _signRepository.GetAllAsync();
     }
+
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await _signRepository.ExistsAsync(id);
+    }
 }
