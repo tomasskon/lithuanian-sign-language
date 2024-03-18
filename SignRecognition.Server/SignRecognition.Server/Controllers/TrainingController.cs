@@ -52,7 +52,6 @@ namespace SignRecognition.Server.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAllTrainingData()
         {
             var zip = await _trainingService.GetGroupedTrainingDataAsync();
