@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SignRecognition.Domain.Models;
 using SignRecognition.Repository.Entities;
@@ -24,5 +25,20 @@ public class TrainingRepository : GenericRepository<TrainingDataEntity>, ITraini
         await Set.AddAsync(dataToAdd);
 
         await Context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Guid>> GetUsersTrainingDataIdsAsync(Guid userId)
+    {
+        return await Set
+            .Where(x => x.UserId == userId)
+            .Select(x => x.SignId)
+            .ToListAsync(); 
+    }
+
+    public async Task<IEnumerable<TrainingData>> GetAll()
+    {
+        var entities = await Set.ToListAsync();
+
+        return RepoMapper.Map<IEnumerable<TrainingData>>(entities);
     }
 }

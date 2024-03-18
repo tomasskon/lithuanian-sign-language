@@ -44,5 +44,20 @@ namespace SignRecognition.Server.Controllers
                 return BadRequest(new StandardExceptionResponse(e));
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserSubmittedTrainingDataIds([FromQuery] Guid userId)
+        {
+            return Ok(await _trainingService.GetUsersTrainingDataIdsAsync(userId));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllTrainingData()
+        {
+            var zip = await _trainingService.GetGroupedTrainingDataAsync();
+
+            return File(zip, "application/zip", "training_data.zip");
+        }
     }
 }
