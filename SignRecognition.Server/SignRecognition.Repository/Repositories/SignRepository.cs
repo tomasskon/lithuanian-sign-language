@@ -44,4 +44,11 @@ public class SignRepository : GenericRepository<SignEntity>, ISignRepository
     {
         return await Set.AnyAsync(x => x.Id == id);
     }
+
+    public async Task<Sign> GetAsync(Guid id)
+    {
+        var signEntity = await Set.SingleOrDefaultAsync(x => x.Id == id);
+
+        return RepoMapper.Map<Sign>(signEntity);
+    }
 }   

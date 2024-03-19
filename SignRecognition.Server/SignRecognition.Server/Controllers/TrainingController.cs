@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SignRecognition.Contract;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
 using SignRecognition.Domain.Models;
@@ -37,11 +36,11 @@ namespace SignRecognition.Server.Controllers
             }
             catch (UserNotFoundException e)
             {
-                return BadRequest(new StandardExceptionResponse(e));
+                return BadRequest(e.ToStandardResponse());
             }
             catch (SignNotFoundException e)
             {
-                return BadRequest(new StandardExceptionResponse(e));
+                return BadRequest(e.ToStandardResponse());
             }
         }
 

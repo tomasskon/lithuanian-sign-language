@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignRecognition.Contract.Signs;
+using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
 using SignRecognition.Domain.Models;
 
@@ -36,6 +37,21 @@ namespace SignRecognition.Server.Controllers
             var signs = await _signService.GetAllSignsAsync();
 
             return Ok(_mapper.Map<IEnumerable<SignContract>>(signs));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSign([FromQuery] Guid signId)
+        {
+            try
+            {
+                var sign = await _signService.GetSignAsync(signId);
+
+                return Ok(_mapper.Map<SignContract>(sign));
+            }
+            catch (SignNotFoundException e)
+            {
+                return NotFound(e.ToStandardResponse());
+            }
         }
     }
 }

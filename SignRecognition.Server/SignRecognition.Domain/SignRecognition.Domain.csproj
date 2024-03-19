@@ -6,4 +6,8 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SignRecognition.Contract\SignRecognition.Contract.csproj" />
+    </ItemGroup>
+
 </Project>
