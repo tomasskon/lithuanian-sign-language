@@ -8,5 +8,5 @@ public interface ITrainingService
 
     Task<IEnumerable<Guid>> GetUsersTrainingDataIdsAsync(Guid userId);
 
-    Task<byte[]> GetGroupedTrainingDataAsync();
+    Task<byte[]> GetGroupedTrainingDataAsync(Guid userId);
 }

@@ -39,5 +39,12 @@ namespace SignRecognition.Service.Services
             var token = _tokenHandler.CreateToken(tokenDescriptor);
             return _tokenHandler.WriteToken(token);
         }
+
+        public Guid GetUserIdFromToken(string jwtToken)
+        {
+            var jsonToken = _tokenHandler.ReadToken(jwtToken) as JwtSecurityToken;
+
+            return Guid.Parse(jsonToken.Claims.Single(x => x.Type == "Id").Value);
+        }
     }
 }

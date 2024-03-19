@@ -46,4 +46,11 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
         return await Set.AnyAsync(x => x.Id == id);
     }
+
+    public async Task<User> GetAsync(Guid id)
+    {
+        var userEntity = await Set.SingleOrDefaultAsync(x => x.Id == id);
+
+        return RepoMapper.Map<User>(userEntity);
+    }
 }

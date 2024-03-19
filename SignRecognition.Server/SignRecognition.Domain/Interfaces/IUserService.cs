@@ -11,4 +11,6 @@ public interface IUserService
     Task<User> CreateAsync(User user);
 
     Task<bool> ExistAsync(Guid id);
+    
+    Task<User> GetAsync(Guid id);
 }

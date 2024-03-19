@@ -36,8 +36,14 @@ public class TrainingService : ITrainingService
         return await _trainingRepository.GetUsersTrainingDataIdsAsync(userId);
     }
 
-    public async Task<byte[]> GetGroupedTrainingDataAsync()
+    public async Task<byte[]> GetGroupedTrainingDataAsync(Guid userId)
     {
+        var user = await _userService.GetAsync(userId);
+
+        //TODO: Refactor this so it would come from configuration
+        if (user.Email != "tomasskon@gmail.com")
+            throw new UnauthorizedAccessException();
+        
         var trainingData = await _trainingRepository.GetAll();
         var groupedBySignId = trainingData.GroupBy(x => x.SignId);
         

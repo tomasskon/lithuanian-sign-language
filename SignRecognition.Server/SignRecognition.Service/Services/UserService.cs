@@ -1,4 +1,5 @@
-﻿using MailSystem.Exception;
+﻿using System.Dynamic;
+using MailSystem.Exception;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
 using SignRecognition.Domain.Models;
@@ -41,5 +42,15 @@ public class UserService : IUserService
     public async Task<bool> ExistAsync(Guid id)
     {
         return await _userRepository.ExistAsync(id);
+    }
+
+    public async Task<User> GetAsync(Guid id)
+    {
+        var user = await _userRepository.GetAsync(id);
+
+        if (user == null)
+            throw new UserNotFoundException($"User not found: {id}");
+
+        return user;
     }
 }
