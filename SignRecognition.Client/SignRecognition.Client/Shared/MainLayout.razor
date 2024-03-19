@@ -10,7 +10,7 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">SR</MudText>
+        <MudText Typo="Typo.h5" Class="ml-3">LGKA - Lietuvių gestų kalbos atpažinimas</MudText>
         <MudIconButton Href="/" Icon="@Icons.Material.Filled.Home" aria-label="home"></MudIconButton>
         <MudSpacer />
         @if (!AuthStateProviderService.IsAuthenticated())
@@ -19,7 +19,7 @@
         }
         else
         {
-            <MudText Typo="Typo.subtitle1">@($"{AuthStateProviderService.GetCurrentUser.FirstName} {AuthStateProviderService.GetCurrentUser.LastName}")</MudText>
+            <MudText Typo="Typo.subtitle1">@($"{AuthStateProviderService.CurentUser.FirstName} {AuthStateProviderService.CurentUser.LastName}")</MudText>
             <MudIconButton Icon="@Icons.Material.Filled.Logout" aria-label="home" OnClick="Logout"></MudIconButton>
         }
     </MudAppBar>

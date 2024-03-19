@@ -5,12 +5,15 @@
 @using MudBlazor
 @using SignRecognition.Client.HttpClients.Interface
 @using AutoMapper
+@using SignRecognition.Client.Services
 @using SignRecognition.Client.ViewModels.Sign
 
 @inject ISignHttpClient SignHttpClient
+@inject ITrainingHttpClient TrainingHttpClient;
+@inject AuthStateProviderService AuthenticationStateProvider;
 @inject IMapper Mapper;
 
-@if (_trainableSigns is not null)
+@if (_trainableSigns is not null && _userSubmittedSigns is not null)
 {
     <MudGrid Justify="Justify.Center" Class="pt-lg-12">
         <MudItem xs="6">
@@ -31,9 +34,17 @@
                                 </BlazoredVideo>
                             </MudCardContent>
                             <MudCardActions>
-                                <MudButton Href="@($@"/train/signs/{trainableSing.Id}/submit")" Variant="Variant.Text" Color="Color.Primary">Submit data</MudButton>
-                                <MudSpacer />
-                                <MudButton Variant="Variant.Text" Color="Color.Primary">View data</MudButton>
+                                @if (!_userSubmittedSigns.Contains(trainableSing.Id))
+                                {
+                                    <MudButton Href="@($@"/train/signs/{trainableSing.Id}/submit")" Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Upload">Pateikti duomenis</MudButton>
+                                }
+                                else
+                                {
+                                    <MudText Color="Color.Success">DUOMENYS PATEIKTI</MudText>
+                                }
+                                <MudSpacer/>
+                                <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Download" aria-label="home"></MudIconButton>
+                                <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" aria-label="home"></MudIconButton>
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -45,13 +56,18 @@
 
 @code {
     private IEnumerable<SignViewModel> _trainableSigns;
+    private HashSet<Guid> _userSubmittedSigns;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await SignHttpClient.GetAllSignsAsync();
+        var signsTask = SignHttpClient.GetAllSignsAsync();
+        var userSignsTask = TrainingHttpClient.GetUserSubmittedTrainingDataIdsAsync(AuthenticationStateProvider.CurentUser.Id);
 
-        if (response is not null)
-            _trainableSigns = Mapper.Map<IEnumerable<SignViewModel>>(response);
+        await Task.WhenAll(signsTask, userSignsTask);
+
+        _trainableSigns = Mapper.Map<IEnumerable<SignViewModel>>(signsTask.Result);
+        _userSubmittedSigns = userSignsTask.Result.ToHashSet();
     }
 
 }
+

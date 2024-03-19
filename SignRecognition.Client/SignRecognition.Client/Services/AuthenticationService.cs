@@ -6,7 +6,7 @@ using SignRecognition.Client.Services.Interfaces;
 
 namespace SignRecognition.Client.Services;
 
-public class AuthenticationService : Interfaces.IAuthenticationService
+public class AuthenticationService : IAuthenticationService
 {
     private readonly ISessionStorageService _sessionStorageService;
     private readonly JwtSecurityTokenHandler _tokenHandler;
@@ -28,6 +28,7 @@ public class AuthenticationService : Interfaces.IAuthenticationService
         var claims = jwtSecurityToken.Claims.ToDictionary(x => x.Type, v => v.Value);
         return new AuthenticatedUser
         {
+            Id = Guid.Parse(claims["Id"]),
             Email = claims["Email"],
             FirstName = claims["FirstName"],
             LastName = claims["LastName"]
@@ -55,6 +56,7 @@ public class AuthenticationService : Interfaces.IAuthenticationService
 
         return new AuthenticatedUser
         {
+            Id = Guid.Parse(claims["Id"]),
             Email = claims["Email"],
             FirstName = claims["FirstName"],
             LastName = claims["LastName"],

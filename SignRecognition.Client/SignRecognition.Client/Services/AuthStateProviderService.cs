@@ -50,7 +50,7 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
 
     public bool IsAuthenticated() => _currentUser != null;
 
-    public AuthenticatedUser GetCurrentUser => _currentUser;
+    public AuthenticatedUser CurentUser => _currentUser;
 
     private async void OnAuthenticationStateChangedAsync(Task<AuthenticationState> task)
     {
@@ -67,6 +67,7 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
 
     private ClaimsPrincipal ToClaimsPrincipal() => new(new ClaimsIdentity(new Claim[]
         {
+            new ("Id", _currentUser.Id.ToString()),
             new ("Email", _currentUser.Email),
             new ("FirstName", _currentUser.FirstName),
             new ("LastName", _currentUser.LastName),
