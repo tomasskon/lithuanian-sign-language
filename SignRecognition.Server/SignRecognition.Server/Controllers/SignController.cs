@@ -22,7 +22,7 @@ namespace SignRecognition.Server.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> AddSigns([FromBody] IEnumerable<AddSignsContract> signs)
+        public async Task<IActionResult> Add([FromBody] IEnumerable<AddSignsContract> signs)
         {
             var singsToAdd = _mapper.Map<IEnumerable<Sign>>(signs);
             
@@ -32,7 +32,7 @@ namespace SignRecognition.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSigns()
+        public async Task<IActionResult> GetAll()
         {
             var signs = await _signService.GetAllSignsAsync();
 
@@ -40,7 +40,7 @@ namespace SignRecognition.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSign([FromQuery] Guid signId)
+        public async Task<IActionResult> Get([FromQuery] Guid signId)
         {
             try
             {

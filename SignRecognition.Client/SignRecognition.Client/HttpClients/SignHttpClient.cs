@@ -16,7 +16,7 @@ public class SignHttpClient : GenericHttpClient, ISignHttpClient
     {
         var httpClient = await GetAuthenticatedHttpClient();
         
-        var response = await httpClient.GetAsync("Sign/GetAllSigns");
+        var response = await httpClient.GetAsync("Sign/GetAll");
 
         if (response.IsSuccessStatusCode)
             return await response.Content.ReadFromJsonAsync<IEnumerable<SignContract>>();
@@ -28,7 +28,7 @@ public class SignHttpClient : GenericHttpClient, ISignHttpClient
     {
         var httpClient = await GetAuthenticatedHttpClient();
 
-        var response = await httpClient.GetAsync($"Sign/GetSign?signId={signId}");
+        var response = await httpClient.GetAsync($"Sign/Get?signId={signId}");
 
         if (response.IsSuccessStatusCode)
             return await response.Content.ReadFromJsonAsync<SignContract>();

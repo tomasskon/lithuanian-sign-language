@@ -17,7 +17,7 @@ public class TrainingHttpClient : GenericHttpClient, ITrainingHttpClient
     {
         var httpClient = await GetAuthenticatedHttpClient();
         
-        var request = new HttpRequestMessage(HttpMethod.Post, $"Training/SubmitTrainingData?userId={userId}&signId={signId}");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"Training/SubmitData?userId={userId}&signId={signId}");
         var body = new ByteArrayContent(CreateZipArchive(data));
         body.Headers.ContentType = MediaTypeHeaderValue.Parse("application/octet-stream");
         request.Content = body;
@@ -28,7 +28,7 @@ public class TrainingHttpClient : GenericHttpClient, ITrainingHttpClient
     public async Task<IEnumerable<Guid>> GetUserSubmittedTrainingDataIdsAsync(Guid userId)
     {
         var httpClient = await GetAuthenticatedHttpClient();
-        var response = await httpClient.GetAsync($"Training/GetUserSubmittedTrainingDataIds?userId={userId}");
+        var response = await httpClient.GetAsync($"Training/GetUserSubmittedDataIds?userId={userId}");
 
         if (response.IsSuccessStatusCode)
             return await response.Content.ReadFromJsonAsync<IEnumerable<Guid>>();

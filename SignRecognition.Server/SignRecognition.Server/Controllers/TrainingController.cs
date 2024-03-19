@@ -24,7 +24,7 @@ namespace SignRecognition.Server.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> SubmitTrainingData([FromBody] byte[] submittedData, [FromQuery] Guid userId, [FromQuery] Guid signId)
+        public async Task<IActionResult> SubmitData([FromBody] byte[] submittedData, [FromQuery] Guid userId, [FromQuery] Guid signId)
         {
             try
             {
@@ -48,13 +48,13 @@ namespace SignRecognition.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUserSubmittedTrainingDataIds([FromQuery] Guid userId)
+        public async Task<IActionResult> GetUserSubmittedDataIds([FromQuery] Guid userId)
         {
             return Ok(await _trainingService.GetUsersTrainingDataIdsAsync(userId));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTrainingData()
+        public async Task<IActionResult> GetAllData()
         {
            var userId = _tokenService.GetUserIdFromToken(HttpContext.GetAuthorizationToken());
 
