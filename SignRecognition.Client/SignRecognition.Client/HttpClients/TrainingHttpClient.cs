@@ -43,7 +43,18 @@ public class TrainingHttpClient : GenericHttpClient, ITrainingHttpClient
 
         return response.IsSuccessStatusCode;
     }
-    
+
+    public async Task<byte[]> GetUserData(Guid signId)
+    {
+        var httpClient = await GetAuthenticatedHttpClient();
+        var response = await httpClient.GetAsync($"Training/GetUserDataFile?signId={signId}");
+
+        if (response.IsSuccessStatusCode)
+            return await response.Content.ReadAsByteArrayAsync();
+
+        return null;
+    }
+
     private static byte[] CreateZipArchive(IReadOnlyList<byte[]> byteArrays)
     {
         using var ms = new MemoryStream();
@@ -51,7 +62,7 @@ public class TrainingHttpClient : GenericHttpClient, ITrainingHttpClient
         {
             for (var i = 0; i < byteArrays.Count; i++)
             {
-                var entry = archive.CreateEntry($"video_{i}.mp4");
+                var entry = archive.CreateEntry($"{i}.webm");
 
                 using var entryStream = entry.Open();
                 entryStream.Write(byteArrays[i], 0, byteArrays[i].Length);

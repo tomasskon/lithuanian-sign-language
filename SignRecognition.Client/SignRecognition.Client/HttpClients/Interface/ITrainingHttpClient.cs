@@ -7,4 +7,6 @@ public interface ITrainingHttpClient
     Task<IEnumerable<Guid>> GetUserSubmittedTrainingDataIdsAsync(Guid userId);
 
     Task<bool> DeleteUserSignDataAsync(Guid signId);
+    
+    Task<byte[]> GetUserData(Guid signId);
 }

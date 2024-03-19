@@ -13,6 +13,7 @@
 @inject AuthStateProviderService AuthenticationStateProvider;
 @inject IMapper Mapper;
 @inject IDialogService DialogService
+@inject IJSRuntime JsRuntime;
 
 @if (_trainableSigns is not null && _userSubmittedSigns is not null)
 {
@@ -42,13 +43,11 @@
                                 else
                                 {
                                     <MudText Color="Color.Success">DUOMENYS PATEIKTI</MudText>
+                                    <MudSpacer/>
+                                    <MudIconButton OnClick="@(async () => await DownloadData(trainableSing.Id, trainableSing.SignName))" Color="Color.Primary" Icon="@Icons.Material.Filled.Download"></MudIconButton>
+                                    <MudIconButton OnClick="@(async () => await DeleteData(trainableSing.Id))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete"></MudIconButton>
                                 }
-                                <MudSpacer/>
-                                <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Download" aria-label="home"></MudIconButton>
-                                @if (_userSubmittedSigns.Contains(trainableSing.Id))
-                                {
-                                    <MudIconButton OnClick="@(async () => await DeleteData(trainableSing.Id))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" aria-label="home"></MudIconButton>
-                                }
+                                
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -90,4 +89,9 @@
         }
     }
 
+    private async Task DownloadData(Guid signId, string signName)
+    {
+        var content = await TrainingHttpClient.GetUserData(signId);
+        await JsRuntime.InvokeVoidAsync("downloadFile", $"{signName}.zip", content);
+    }
 }
