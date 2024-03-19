@@ -23,4 +23,16 @@ public class SignHttpClient : GenericHttpClient, ISignHttpClient
 
         return null;
     }
+
+    public async Task<SignContract> GetSignAsync(Guid signId)
+    {
+        var httpClient = await GetAuthenticatedHttpClient();
+
+        var response = await httpClient.GetAsync($"Sign/GetSign?signId={signId}");
+
+        if (response.IsSuccessStatusCode)
+            return await response.Content.ReadFromJsonAsync<SignContract>();
+
+        return null;
+    }
 }

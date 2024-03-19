@@ -1,8 +1,137 @@
 ﻿@page "/train/signs/{SignId:guid}/submit/"
 
-<h3>Submit</h3>
+@using MudBlazor
+@using SignRecognition.Client.HttpClients.Interface
+@using SignRecognition.Client.Services
+@using SignRecognition.Client.ViewModels.Sign
+@using AutoMapper
+
+@inject IJSRuntime JsRuntime
+@inject ITrainingHttpClient TrainingHttpClient;
+@inject AuthStateProviderService AuthStateProviderService;
+@inject ISignHttpClient SignHttpClient;
+@inject IMapper Mapper;
+@inject NavigationManager NavigationManager;
+
+@if (_sign != null)
+{
+    <MudGrid Justify="Justify.Center" Class="pt-lg-16">
+        <MudItem Class="mr-2" sm="3">
+
+            <MudCard Class="h-100">
+                @if (!_startRecording)
+                {
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5">Pateikti vaizdo įrašus gestui: @_sign.SignName.ToUpper()</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText>Instrukcija:</MudText>
+                        <MudList>
+                            <MudListItem>1. Peržiūrėkite vaizdo įraša dešinėje</MudListItem>
+                            <MudListItem>2. Paspauskite „Pradėti įrašinėjimą“</MudListItem>
+                            <MudListItem>3. Sekite rodomuosius signalus ekrane</MudListItem>
+                            <MudListItem>4. Atkartokite išmoktą gestą (galima keisti rankas)</MudListItem>
+                            <MudListItem>5. Nebijokite suklysti, duomenys neturi būti įdealūs</MudListItem>
+                            <MudListItem>6. Po 15 įrašytų vaizdo įrašų duomenys pasiteiks automatiškai</MudListItem>
+                        </MudList>
+                    </MudCardContent>
+                    <MudCardActions Alignment="Alignment.Center">
+                        <div class="d-flex justify-content-center w-100">
+                            <MudButton OnClick="StartRecording" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Variant="Variant.Text" Color="Color.Error">Pradėti įrašinėjimą</MudButton>
+                        </div>
+                    </MudCardActions>
+                }
+                @if (_startRecording)
+                {
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            @if (_recording)
+                            {
+                                <MudButton StartIcon="@Icons.Material.Filled.RadioButtonChecked" Color="Color.Error" Typo="Typo.h5">Įrašinėjama</MudButton>
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.h6">Įrašinėjimas prasidės už: @_seconds</MudText>
+                            }
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                }
+                <MudCardContent>
+                    <div style="@_recorderStyle">
+                        <video id="preview" style="width: 100%; height: 100%; border-radius: 10px;" autoplay></video>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem Class="ml-2" sm="3">
+            <BlazoredVideo
+                class="w-100 h-100"
+                style="max-width:100%; border-radius: 5px"
+                controls="controls">
+                <source src="@_sign.SignVideoUrl" type="video/mp4"/>
+            </BlazoredVideo>
+        </MudItem>
+    </MudGrid>
+}
 
 @code {
+
     [Parameter]
     public Guid SignId { get; set; }
+
+    private SignViewModel _sign;
+    private List<byte[]> _videos = new();
+
+    private bool _startRecording;
+    private bool _recording;
+    private int _seconds;
+
+    private string _recorderStyle = "width: 0%; height: 0%;";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _sign = Mapper.Map<SignViewModel>(await SignHttpClient.GetSignAsync(SignId));
+    }
+
+
+    [JSInvokable]
+    public async Task HandleRecording(byte[] recordedVideo)
+    {
+        _videos.Add(recordedVideo);
+
+        if (_videos.Count() == 5)
+        {
+            await TrainingHttpClient.SubmitTrainingDataAsync(_videos, AuthStateProviderService.CurentUser.Id, SignId);
+            NavigationManager.NavigateTo("/train/signs");
+        }
+        else
+        {
+            await StartRecording();
+        }
+    }
+
+    private async Task StartRecording()
+    {
+        _startRecording = true;
+        _recording = false;
+        
+        StateHasChanged();
+
+        for (var i = 3; i >= 1; i--)
+        {
+            _seconds = i;
+            StateHasChanged();
+            await Task.Delay(TimeSpan.FromSeconds(0.7));
+        }
+        
+        _recording = true;
+        ShowRecordingElement();
+        StateHasChanged();
+
+        await JsRuntime.InvokeVoidAsync("startRecording", DotNetObjectReference.Create(this));
+    }
+
+    private void ShowRecordingElement() => _recorderStyle = "width: 100%; height: 100%;";
 }
