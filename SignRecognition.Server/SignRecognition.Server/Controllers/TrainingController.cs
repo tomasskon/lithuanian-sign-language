@@ -14,7 +14,7 @@ namespace SignRecognition.Server.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ITrainingService _trainingService;
-        private ITokenService _tokenService;
+        private readonly ITokenService _tokenService;
         
         public TrainingController(IMapper mapper, ITrainingService trainingService, ITokenService tokenService)
         {
