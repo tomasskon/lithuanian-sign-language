@@ -72,5 +72,14 @@ namespace SignRecognition.Server.Controllers
                return Unauthorized(e.ToStandardResponse());
            }
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserData([FromQuery] Guid signId)
+        {
+            var userId = _tokenService.GetUserIdFromToken(HttpContext.GetAuthorizationToken());
+            await _trainingService.DeleteUserTrainingDataAsync(userId, signId);
+
+            return Ok();
+        }
     }
 }

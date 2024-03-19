@@ -1,5 +1,4 @@
 ﻿using System.IO.Compression;
-using System.Xml.Serialization;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
 using SignRecognition.Domain.Models;
@@ -51,6 +50,11 @@ public class TrainingService : ITrainingService
             .ToDictionary(k => k.Id, v => v.SignName);
         
         return CreateDatasetZipFile(signNames, groupedBySignId);
+    }
+
+    public async Task DeleteUserTrainingDataAsync(Guid userId, Guid signId)
+    {
+        await _trainingRepository.DeleteAsync(userId, signId);
     }
 
     private static byte[] CreateDatasetZipFile(IReadOnlyDictionary<Guid, string> signNames, IEnumerable<IGrouping<Guid, TrainingData>> groupedData)

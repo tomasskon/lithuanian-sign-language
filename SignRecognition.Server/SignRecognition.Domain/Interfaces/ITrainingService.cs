@@ -9,4 +9,6 @@ public interface ITrainingService
     Task<IEnumerable<Guid>> GetUsersTrainingDataIdsAsync(Guid userId);
 
     Task<byte[]> GetGroupedTrainingDataAsync(Guid userId);
+    
+    Task DeleteUserTrainingDataAsync(Guid userId, Guid signId);
 }

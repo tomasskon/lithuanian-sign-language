@@ -9,4 +9,6 @@ public interface ITrainingRepository
     Task<IEnumerable<Guid>> GetUsersTrainingDataIdsAsync(Guid userId);
 
     Task<IEnumerable<TrainingData>> GetAll();
+    
+    Task DeleteAsync(Guid userId, Guid signId);
 }
