@@ -81,5 +81,14 @@ namespace SignRecognition.Server.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserDataFile([FromQuery] Guid signId)
+        {
+            var userId = _tokenService.GetUserIdFromToken(HttpContext.GetAuthorizationToken());
+            var trainingData = await _trainingService.GetUserDataAsync(userId, signId);
+            
+            return File(trainingData.Data, "application/zip", $"{signId}.zip");
+        }
     }
 }

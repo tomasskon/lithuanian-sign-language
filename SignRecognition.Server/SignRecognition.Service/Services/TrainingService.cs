@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
 using SignRecognition.Domain.Models;
@@ -57,6 +58,16 @@ public class TrainingService : ITrainingService
         await _trainingRepository.DeleteAsync(userId, signId);
     }
 
+    public async Task<TrainingData> GetUserDataAsync(Guid userId, Guid signId)
+    {
+        var data = await _trainingRepository.GetAsync(userId, signId);
+
+        if (data is null)
+            throw new TrainingDataNotFoundException($"UserId: {userId}, SignId: {signId}");
+
+        return data;
+    }
+
     private static byte[] CreateDatasetZipFile(IReadOnlyDictionary<Guid, string> signNames, IEnumerable<IGrouping<Guid, TrainingData>> groupedData)
     {
         using var outputStream = new MemoryStream();
@@ -74,7 +85,7 @@ public class TrainingService : ITrainingService
                     
                     foreach (var entry in zipArchive.Entries)
                     {
-                        var newEntry = archive.CreateEntry($"{folderName}/{fileCounter}.mp4");
+                        var newEntry = archive.CreateEntry($"{folderName}/{fileCounter}.webm");
                         
                         using (var entryStream = entry.Open())
                         using (var newEntryStream = newEntry.Open())

@@ -49,4 +49,11 @@ public class TrainingRepository : GenericRepository<TrainingDataEntity>, ITraini
         Set.Remove(entity);
         await Context.SaveChangesAsync();
     }
+
+    public async Task<TrainingData> GetAsync(Guid userId, Guid signId)
+    {
+        var entity = await Set.SingleOrDefaultAsync(x => x.UserId == userId && x.SignId == signId);
+
+        return RepoMapper.Map<TrainingData>(entity);
+    }
 }
