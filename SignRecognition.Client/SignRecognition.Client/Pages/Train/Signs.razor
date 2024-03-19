@@ -12,6 +12,7 @@
 @inject ITrainingHttpClient TrainingHttpClient;
 @inject AuthStateProviderService AuthenticationStateProvider;
 @inject IMapper Mapper;
+@inject IDialogService DialogService
 
 @if (_trainableSigns is not null && _userSubmittedSigns is not null)
 {
@@ -44,7 +45,10 @@
                                 }
                                 <MudSpacer/>
                                 <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Download" aria-label="home"></MudIconButton>
-                                <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" aria-label="home"></MudIconButton>
+                                @if (_userSubmittedSigns.Contains(trainableSing.Id))
+                                {
+                                    <MudIconButton OnClick="@(async () => await DeleteData(trainableSing.Id))" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" aria-label="home"></MudIconButton>
+                                }
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -55,7 +59,7 @@
 }
 
 @code {
-    private IEnumerable<SignViewModel> _trainableSigns;
+    private List<SignViewModel> _trainableSigns;
     private HashSet<Guid> _userSubmittedSigns;
 
     protected override async Task OnInitializedAsync()
@@ -65,9 +69,25 @@
 
         await Task.WhenAll(signsTask, userSignsTask);
 
-        _trainableSigns = Mapper.Map<IEnumerable<SignViewModel>>(signsTask.Result);
+        _trainableSigns = Mapper.Map<List<SignViewModel>>(signsTask.Result);
         _userSubmittedSigns = userSignsTask.Result.ToHashSet();
     }
 
-}
+    private async Task DeleteData(Guid signId)
+    {
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
+        var dialog = await DialogService.ShowAsync<DeletionDialog>("Ištrinimas", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            if (await TrainingHttpClient.DeleteUserSignDataAsync(signId))
+            {
+                _userSubmittedSigns.Remove(signId);
+                StateHasChanged();
+            }
+        }
+    }
+
+}

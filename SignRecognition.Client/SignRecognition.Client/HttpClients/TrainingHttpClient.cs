@@ -35,6 +35,14 @@ public class TrainingHttpClient : GenericHttpClient, ITrainingHttpClient
 
         return null;
     }
+
+    public async Task<bool> DeleteUserSignDataAsync(Guid signId)
+    {
+        var httpClient = await GetAuthenticatedHttpClient();
+        var response = await httpClient.DeleteAsync($"Training/DeleteUserData?signId={signId}");
+
+        return response.IsSuccessStatusCode;
+    }
     
     private static byte[] CreateZipArchive(IReadOnlyList<byte[]> byteArrays)
     {
