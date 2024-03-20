@@ -53,4 +53,12 @@ public class UserRepository : GenericRepository<UserEntity>, IUserRepository
 
         return RepoMapper.Map<User>(userEntity);
     }
+
+    public async Task DeleteAsync(Guid userId)
+    {
+        var entity = await Set.SingleOrDefaultAsync(x => x.Id == userId);
+
+        Set.Remove(entity);
+        await Context.SaveChangesAsync();
+    }
 }

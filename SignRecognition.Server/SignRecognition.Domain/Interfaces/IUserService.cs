@@ -13,4 +13,6 @@ public interface IUserService
     Task<bool> ExistAsync(Guid id);
     
     Task<User> GetAsync(Guid id);
+    
+    Task DeleteAllDataAsync(Guid userId);
 }

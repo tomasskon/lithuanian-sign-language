@@ -15,4 +15,6 @@ public interface IUserRepository
     Task<bool> ExistAsync(Guid id);
     
     Task<User> GetAsync(Guid id);
+    
+    Task DeleteAsync(Guid userId);
 }

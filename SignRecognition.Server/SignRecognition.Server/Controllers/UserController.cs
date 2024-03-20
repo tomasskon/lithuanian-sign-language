@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SignRecognition.Contract.User;
 using SignRecognition.Domain.Exceptions;
 using SignRecognition.Domain.Interfaces;
-using SignRecognition.Domain.Models;
 using SignRecognition.Server.Controllers.Extensions;
 
 namespace SignRecognition.Server.Controllers
@@ -17,7 +16,7 @@ namespace SignRecognition.Server.Controllers
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
         
-        public UserController(IMapper mapper, ITrainingService trainingService, ITokenService tokenService, IUserService userService)
+        public UserController(IMapper mapper, ITokenService tokenService, IUserService userService)
         {
             _mapper = mapper;
             _tokenService = tokenService;
@@ -38,6 +37,16 @@ namespace SignRecognition.Server.Controllers
             {
                 return NotFound(ex.ToStandardResponse());
             }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+            var userId = _tokenService.GetUserIdFromToken(HttpContext.GetAuthorizationToken());
+            await _userService.DeleteAllDataAsync(userId);
+
+            return Ok();
+            
         }
     }
 }
