@@ -1,0 +1,13 @@
+﻿@page "/profile/{UserId:guid}"
+<h3>Profile</h3>
+
+@code {
+    [Parameter]
+    public Guid UserId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+    }
+
+}
