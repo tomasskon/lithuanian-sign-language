@@ -17,7 +17,7 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
         _authenticationService = authenticationService;
     }
     
-    public async Task Login(string token)
+    public async Task LoginAsync(string token)
     {
         var user = await _authenticationService.AuthenticateUser(token);
         _currentUser = user;
@@ -26,7 +26,7 @@ public class AuthStateProviderService : AuthenticationStateProvider, IDisposable
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(ToClaimsPrincipal())));
     }
     
-    public async Task Logout()
+    public async Task LogoutAsync()
     {
         await _authenticationService.LogoutUser();
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));

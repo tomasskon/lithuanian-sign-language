@@ -20,6 +20,7 @@
         else
         {
             <MudText Typo="Typo.subtitle1">@($"{AuthStateProviderService.CurentUser.FirstName} {AuthStateProviderService.CurentUser.LastName}")</MudText>
+            <MudIconButton Href="@($"/profile/{AuthStateProviderService.CurentUser.Id}")" Icon="@Icons.Material.Filled.Person" aria-label="home"></MudIconButton>
             <MudIconButton Icon="@Icons.Material.Filled.Logout" aria-label="home" OnClick="Logout"></MudIconButton>
         }
     </MudAppBar>
@@ -33,7 +34,7 @@
 
     private async Task Logout()
     {
-        await AuthStateProviderService.Logout();  
+        await AuthStateProviderService.LogoutAsync();  
         StateHasChanged();
     }
 }

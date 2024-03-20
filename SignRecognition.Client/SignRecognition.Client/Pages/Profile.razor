@@ -1,13 +1,69 @@
 ﻿@page "/profile/{UserId:guid}"
-<h3>Profile</h3>
+
+@using MudBlazor
+@using SignRecognition.Client.HttpClients.Interface
+@using SignRecognition.Client.ViewModels.User
+@using SignRecognition.Client.Services
+
+@inject AuthStateProviderService AuthStateProvider;
+@inject IDialogService DialogService
+@inject IUserHttpClient UserHttpClient;
+@inject NavigationManager NavigationManager;
+@inject AuthStateProviderService AuthStateProviderService;
+
+@if (_profileViewModel is not null)
+{
+    <MudGrid Justify="Justify.Center" Class="mt-lg-5">
+        <MudItem xs="12" sm="7">
+            <MudPaper Class="pa-4">
+                <MudForm Disabled="true">
+                    <MudTextField T="string" Label="Vardas" @bind-Value="_profileViewModel.FirstName"/>
+                    <MudTextField T="string" Label="Pavardė" @bind-Value="_profileViewModel.LastName"/>
+                    <MudTextField T="string" Label="Elektroninis paštas" @bind-Value="_profileViewModel.Email"/>
+                </MudForm>
+            </MudPaper>
+            <MudPaper Class="pa-4 mt-4" Style="display: flex; justify-content: space-between; align-items: center;">
+                <div></div> <!-- This empty div will push the button to the right -->
+                <MudButton EndIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" DisableElevation="true" OnClick="@DeleteUserAsync">Ištrinti</MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}
 
 @code {
+
     [Parameter]
     public Guid UserId { get; set; }
 
+    private ProfileViewModel _profileViewModel;
+
     protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        var user = AuthStateProvider.CurentUser;
+
+        _profileViewModel = new ProfileViewModel
+        {
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email
+        };
     }
 
+    private async Task DeleteUserAsync()
+    {
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = await DialogService.ShowAsync<DeletionDialog>("Ištrinimas", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            if (await UserHttpClient.DeleteAsync())
+            {
+                await AuthStateProviderService.LogoutAsync();
+                NavigationManager.NavigateTo("/");
+            }
+                
+        }
+    }
 }

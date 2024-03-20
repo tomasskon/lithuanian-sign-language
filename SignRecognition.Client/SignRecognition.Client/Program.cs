@@ -27,6 +27,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAuthenticationHttpClient, AuthenticationHttpClient>();
 builder.Services.AddScoped<ISignHttpClient, SignHttpClient>();
 builder.Services.AddScoped<ITrainingHttpClient, TrainingHttpClient>();
+builder.Services.AddScoped<IUserHttpClient, UserHttpClient>();
 
 builder.Services.AddScoped<AuthStateProviderService>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<AuthStateProviderService>());
