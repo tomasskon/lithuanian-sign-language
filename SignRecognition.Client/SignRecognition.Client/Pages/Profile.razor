@@ -61,7 +61,7 @@
             if (await UserHttpClient.DeleteAsync())
             {
                 await AuthStateProviderService.LogoutAsync();
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/client");
             }
                 
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SignRecognition.Domain.Configurations;
 using SignRecognition.Repository;
 using SignRecognition.Server.Controllers;
@@ -10,12 +11,15 @@ using SignRecognition.Server.Module;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+
 builder.Services.AddControllers(options=> 
     options.InputFormatters.Add(new ByteArrayInputFormatter()));
 // builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -80,9 +84,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: corspolicy,
         policy  =>
         {
-            policy.WithOrigins(
-                "http://localhost:5049",
-                "http://localhost:44338");
+            policy.AllowAnyOrigin();
             policy.AllowAnyHeader();
             policy.AllowAnyOrigin();
             policy.AllowAnyMethod();
@@ -91,8 +93,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

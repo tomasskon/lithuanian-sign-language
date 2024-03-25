@@ -76,7 +76,7 @@
 
         await AuthStateProvider.LoginAsync(response);
         StateHasChanged();
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/client");
     }
     
     private async Task OnValidUserLogin(EditContext context)
@@ -93,6 +93,6 @@
 
         await AuthStateProvider.LoginAsync(response);
         StateHasChanged();
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/client");
     }
 }

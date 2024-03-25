@@ -38,7 +38,7 @@
                             <MudCardActions>
                                 @if (!_userSubmittedSigns.Contains(trainableSing.Id))
                                 {
-                                    <MudButton Href="@($@"/train/signs/{trainableSing.Id}/submit")" Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Upload">Pateikti duomenis</MudButton>
+                                    <MudButton Href="@($@"/client/train/signs/{trainableSing.Id}/submit")" Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Upload">Pateikti duomenis</MudButton>
                                 }
                                 else
                                 {

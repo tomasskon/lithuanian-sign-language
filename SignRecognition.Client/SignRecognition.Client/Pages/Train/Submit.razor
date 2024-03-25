@@ -104,7 +104,7 @@
         if (_videos.Count() == 5)
         {
             await TrainingHttpClient.SubmitTrainingDataAsync(_videos, AuthStateProviderService.CurentUser.Id, SignId);
-            NavigationManager.NavigateTo("/train/signs");
+            NavigationManager.NavigateTo("/client/train/signs");
         }
         else
         {
