@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using MailSystem.Exception;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,9 @@ namespace SignRecognition.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> UserRegister([FromBody] UserRegisterContract userRegisterContract)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            
             var user = _mapper.Map<User>(userRegisterContract);
             
             try
