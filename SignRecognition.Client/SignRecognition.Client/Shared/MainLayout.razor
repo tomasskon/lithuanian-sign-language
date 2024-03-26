@@ -10,12 +10,12 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">LGKA - Lietuvių gestų kalbos atpažinimas</MudText>
         <MudIconButton Href="/client" Icon="@Icons.Material.Filled.Home" aria-label="home"></MudIconButton>
-        <MudSpacer />
+        <MudText Typo="Typo.h5" Class="ml-3">LGKA - Lietuvių gestų kalbos atpažinimas</MudText>
+        <MudSpacer/>
         @if (!AuthStateProviderService.IsAuthenticated())
         {
-            <MudButton Href="/client/login" Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>
+            <MudButton Href="/client/login" Variant="Variant.Outlined" Color="Color.Primary">Prisijungti</MudButton>
         }
         else
         {

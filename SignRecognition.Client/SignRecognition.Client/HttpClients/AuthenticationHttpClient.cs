@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using Blazored.SessionStorage;
 using SignRecognition.Client.HttpClients.Interface;
+using SignRecognition.Contract;
 using SignRecognition.Contract.Authentication;
 
 namespace SignRecognition.Client.HttpClients;
@@ -12,23 +13,23 @@ public class AuthenticationHttpClient : GenericHttpClient, IAuthenticationHttpCl
     {
     }
 
-    public async Task<string> RegisterUserAsync(UserRegisterContract userRegisterContract)
+    public async Task<Tuple<string, ErrorResponseContract>> RegisterUserAsync(UserRegisterContract userRegisterContract)
     {
         var response = await HttpClient.PostAsJsonAsync("/Authentication/UserRegister", userRegisterContract);
 
         if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsStringAsync();
+            return new (await response.Content.ReadAsStringAsync(), null);
 
-        return null;
+        return new (null, await response.Content.ReadFromJsonAsync<ErrorResponseContract>());
     }
     
-    public async Task<string> LoginUserAsync(UserLoginContract userLoginContract)
+    public async Task<Tuple<string, ErrorResponseContract>> LoginUserAsync(UserLoginContract userLoginContract)
     {
         var response = await HttpClient.PostAsJsonAsync("/Authentication/UserLogin", userLoginContract);
 
         if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsStringAsync();
+            return new (await response.Content.ReadAsStringAsync(), null);
 
-        return null;
+        return new (null, await response.Content.ReadFromJsonAsync<ErrorResponseContract>());
     }
 }

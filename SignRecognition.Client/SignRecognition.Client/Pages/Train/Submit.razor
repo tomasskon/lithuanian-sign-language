@@ -39,7 +39,7 @@
                     </MudCardContent>
                     <MudCardActions Alignment="Alignment.Center">
                         <div class="d-flex justify-content-center w-100">
-                            <MudButton OnClick="StartRecording" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Variant="Variant.Text" Color="Color.Error">Pradėti įrašinėjimą</MudButton>
+                            <MudButton OnClick="StartRecording" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Variant="Variant.Outlined" Color="Color.Error">Pradėti įrašinėjimą</MudButton>
                         </div>
                     </MudCardActions>
                 }
@@ -49,7 +49,7 @@
                         <CardHeaderContent>
                             @if (_recording)
                             {
-                                <MudButton StartIcon="@Icons.Material.Filled.RadioButtonChecked" Color="Color.Error" Typo="Typo.h5">Įrašinėjama</MudButton>
+                                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Color="Color.Error" Typo="Typo.h5">Įrašinėjama</MudButton>
                             }
                             else
                             {

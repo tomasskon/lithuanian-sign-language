@@ -1,0 +1,64 @@
+﻿@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <div style="height: 300px; overflow-y: auto;">
+            <MudText Typo="Typo.h4">Terms and Conditions & User Data Collection Policy</MudText>
+
+            <MudText Class="mt-5" Typo="Typo.h6">1. Introduction</MudText>
+            <MudText> Welcome to Tomas.com (hereinafter referred to as the "Website"). By accessing or using the Website, you agree to comply with and be bound by the following terms and conditions, as well as the User Data Collection Policy outlined herein. Please read these terms and conditions carefully before accessing or using the Website.</MudText>
+
+            <MudText Class="mt-5" Typo="Typo.h6">2. User Data Collection Policy</MudText>
+            <MudText Class="mt-2" Typo="Typo.subtitle1">2.1. Data Collection</MudText>
+            <MudText> The Website collects and stores the following user data:</MudText>
+            <MudList>
+                <MudListItem>1. First name</MudListItem>
+                <MudListItem>2. Last name</MudListItem>
+                <MudListItem>3. Email</MudListItem>
+                <MudListItem>4. Video data submitted by the user</MudListItem>
+            </MudList>
+
+            <MudText Class="mt-2" Typo="Typo.subtitle1">2.2. Data Usage</MudText>
+            <MudText> All data collected by the Website will only be processed and accessed by Tomas Kondrotas, the creator of this web application. The collected data will be used solely for the purpose of training an AI model for Lithuanian Sign Language recognition. Under no circumstances will the data be shared with third parties.</MudText>
+
+            <MudText Class="mt-2" Typo="Typo.subtitle1">2.3. User Consent</MudText>
+            <MudText> By accepting this policy, users consent to the collection and usage of their data as described herein.</MudText>
+
+            <MudText Class="mt-2"Typo="Typo.subtitle1">2.4. Accountability</MudText>
+            <MudText> Tomas Kondrotas, as the creator of this web application, is not accountable for any issues or consequences arising from the collection, usage, or storage of user data.</MudText>
+
+            <MudText Class="mt-2" Typo="Typo.subtitle1">2.5. Data Deletion</MudText>
+            <MudText> User account information can be deleted via the Website (tomas.com). However, the training data (video data) will be held for a period of 6 months unless the user requests complete deletion of their data via email. After this period, or upon user request, all data will be permanently deleted.</MudText>
+
+            <MudText Class="mt-2" Typo="Typo.subtitle1">2.6. Data Security</MudText>
+            <MudText> All user data collected and stored by the Website is stored on the cloud and is encrypted to ensure security.</MudText>
+
+            <MudText Class="mt-5" Typo="Typo.h6">3. Contacts</MudText>
+            <MudText> For any inquiries or concerns regarding this policy or the usage of user data, please contact:</MudText>
+            <MudList>
+                <MudListItem>1. Tomas Kondrotas</MudListItem>
+                <MudListItem>2. Email: tomas.kondrotas@mif.stud.vu.lt</MudListItem>
+                <MudListItem>3. Phone: +37060102401</MudListItem>
+            </MudList>
+
+            <MudText Class="mt-5" Typo="Typo.h6">4. Acceptance of Terms</MudText>
+            <MudText> By accessing registering to the Website, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions, as well as the User Data Collection Policy outlined herein.</MudText>
+
+            <MudText> Last Updated: 2024-03-26</MudText>
+            <MudText> If you do not agree to these terms and conditions, please refrain from accessing or using the Website.</MudText>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="Cancel">Atšaukti</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" OnClick="Submit">Registruotis</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

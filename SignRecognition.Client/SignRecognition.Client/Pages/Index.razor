@@ -1,99 +1,51 @@
 ﻿@page "/"
 
-@attribute [Authorize]
+@attribute [AllowAnonymous]
 
 @using MudBlazor
 
-<MudContainer Class="mt-16">
-    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Sign recognition Home</MudText>
-    <MudText Align="Align.Center">Some long pricing text should go here maybe? who knows what text you would want here, i guess i cant fill it in for you.</MudText>
-    <MudGrid Class="mt-8">
-        <MudItem xs="12" sm="6" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5" Align="Align.Center">Test the model</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
+<MudContainer Class="mt-lg-5">
+    <MudPaper Class="text-center p-3">
+        <MudText Typo="Typo.h2">Lietuvių gestų kalbos atpažinimas</MudText>
+        <MudText Typo="Typo.subtitle1" Class="mud-typography-subtitle1 mt-5">
+            Sveiki, esu Tomas Kondrotas, Vilniaus Universiteto programų sistemų 4 kurso studentas.
+            Savo bakalauriniam darbui išsikėliau tikslą sukurti ir palyginti skirtingus įrankius galinčius atpažinti lietuviškąją gestų kalbą iš vaizdo įrašų.
+            Sukūriau šią platformą, kad supaprastinčiau duomenų rinkimą, kurie yra būtini apmokant dirbtinio intelekto modelius,
+            tad jei norite dalyvauti šiame projekte ir padėti tobulinti gestų kalbos atpažinimo technologiją, apsvarstykite galimybę pateikti savo vaizdo įrašus.
+        </MudText>
+    </MudPaper>
+</MudContainer>
+
+<MudContainer Class="mt-lg-5">
+    <div Class="row h-100">
+        <div Class="col-md-4">
+            <MudPaper Class="card mb-4 box-shadow h-100">
+                <MudImage Src="Images/record.webp"></MudImage>
                 <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudText Typo="Typo.h3">$5</MudText>
-                        <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">/Monthly</MudText>
+                    <MudText Typo="Typo.body1">Pirmas žingsnis dirbtinio intelekto kūrime yra duomenų skirtų jį apmokyti rinkimas. Šioje skiltyje Jūs pasirinksite kokį lietuviškąjį gestą 
+                        Jūs norite nufilmuoti, sekdami programos instrukcijas nufilmuosite ir pateiksite vaizdo įrašus skirtus mokymam.</MudText>
+                    <div class="text-end">
+                        <MudButton Variant="Variant.Outlined" Href="/client/train/signs" Class="mt-3" Color="Color.Primary">Pateikti</MudButton>
                     </div>
-                    <MudList Class="mx-auto mt-4" Style="width:300px;">
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            Unlimited something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            10 something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            No something
-                        </MudListItem>
-                    </MudList>
                 </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Navigate</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-        <MudItem xs="12" sm="6" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5" Align="Align.Center">Train the Model</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
+            </MudPaper>
+        </div>
+        <div Class="col-md-4">
+            <MudPaper Class="card mb-4 box-shadow h-100">
+                <MudImage Src="Images/train.webp"></MudImage>
                 <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudText Typo="Typo.h3">$10</MudText>
-                        <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">/Monthly</MudText>
-                    </div>
-                    <MudList Class="mx-auto mt-4" Style="width:300px;">
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            Unlimited something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            10 something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            No something
-                        </MudListItem>
-                    </MudList>
+                    <MudText Typo="Typo.body1">Surinkus mokymo duomenis dirbtinio intelekto modeliai jų pagalba yra mokomi. 
+                        Ši skiltis bus skirta testuoti apmokytus dirbtinio intelekto modelius ir jų gebėjimą atpažinti lietuviškus gestus iš vaizdo įrašo.</MudText>
                 </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Href="/client/train/signs" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Navigate</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-        <MudItem xs="12" sm="12" md="4">
-            <MudCard Elevation="25" Class="rounded-lg pb-4">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5" Align="Align.Center">Word library</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
+            </MudPaper>
+        </div>
+        <div Class="col-md-4">
+            <MudPaper Class="card mb-4 box-shadow h-100">
+                <MudImage Src="Images/review.webp"></MudImage>
                 <MudCardContent>
-                    <div class="d-flex justify-center">
-                        <MudText Typo="Typo.h3">$15</MudText>
-                        <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">/Monthly</MudText>
-                    </div>
-                    <MudList Class="mx-auto mt-4" Style="width:300px;">
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            Unlimited something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            10 something
-                        </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                            No something
-                        </MudListItem>
-                    </MudList>
+                    <MudText Typo="Typo.body1">Ši skiltis bus skirta palikti atsiliepimus apie apmokytų dirbtinio intelekto modelių gebėjimą atskirti lietuviškos kalbos gestus iš vaizdo įrašo. </MudText>
                 </MudCardContent>
-                <MudCardActions Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Navigate</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
+            </MudPaper>
+        </div>
+    </div>
 </MudContainer>

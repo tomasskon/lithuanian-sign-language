@@ -11,6 +11,7 @@
 @inject IAuthenticationHttpClient AuthenticationHttpClient
 @inject AuthStateProviderService AuthStateProvider
 @inject NavigationManager NavigationManager
+@inject IDialogService DialogService
 
 <MudGrid Justify="Justify.Center" Class="pt-lg-12">
     <MudItem sm="3">
@@ -24,10 +25,14 @@
                                   @bind-Value="_loginViewModel.Password" For="@(() => _loginViewModel.Password)" InputType="InputType.Password"/>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Color="Color.Primary" Class="ml-auto">Prisijungti</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>
+        @if (_loginFailed)
+        {
+            <MudAlert Class="mt-5" Severity="Severity.Error">@_loginFailedMessage</MudAlert>
+        }
     </MudItem>
     <MudItem sm="3">
         <EditForm Model="@_registrationViewModel" OnValidSubmit="OnValidUserRegister">
@@ -44,24 +49,37 @@
                                   @bind-Value="_registrationViewModel.Password" For="@(() => _registrationViewModel.Password)" InputType="InputType.Password"/>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Color="Color.Primary" Class="ml-auto">Registruotis</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>
-    </MudItem>
-    <MudItem xs="12">
-        <MudText Typo="Typo.body2" Align="Align.Center">
-            Fill out the form correctly to see the success message.
-        </MudText>
+        @if (_registrationFailed)
+        {
+            <MudAlert Class="mt-5" Severity="Severity.Error">@_registrationFailedMessage</MudAlert>
+        }
     </MudItem>
 </MudGrid>
 
 @code {
-    private UserLoginViewModel _loginViewModel = new();
-    private UserRegistrationViewModel _registrationViewModel = new();
-    
+    private readonly UserLoginViewModel _loginViewModel = new();
+    private readonly UserRegistrationViewModel _registrationViewModel = new();
+
+    private bool _loginFailed = false;
+    private string _loginFailedMessage = "";
+
+    private bool _registrationFailed = false;
+    private string _registrationFailedMessage = "";
+
     private async Task OnValidUserRegister(EditContext context)
     {
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium };
+
+        var dialog = await DialogService.ShowAsync<TermsAndConditionsDialog>("Sąlygos", options);
+        var result = await dialog.Result;
+
+        if (result.Canceled)
+            return;
+
         var response = await AuthenticationHttpClient.RegisterUserAsync(new UserRegisterContract
         {
             FirstName = _registrationViewModel.FirstName,
@@ -70,15 +88,24 @@
             Password = _registrationViewModel.Password
         });
 
-        var a = 6;
-        if (response is null)
-             a = 10;
-
-        await AuthStateProvider.LoginAsync(response);
-        StateHasChanged();
-        NavigationManager.NavigateTo("/client");
+        if (response.Item1 != null)
+        {
+            await AuthStateProvider.LoginAsync(response.Item1);
+            StateHasChanged();
+            NavigationManager.NavigateTo("/client");
+        }
+        else
+        {
+            var error = response.Item2;
+            _registrationFailedMessage = error.Error switch
+            {
+                "UserEmailAlreadyUsedException" => "Vartotojo elektroninis paštas jau užimtas",
+                _ => "Įvyko klaida"
+                };
+            _registrationFailed = true;
+        }
     }
-    
+
     private async Task OnValidUserLogin(EditContext context)
     {
         var response = await AuthenticationHttpClient.LoginUserAsync(new UserLoginContract()
@@ -87,12 +114,24 @@
             Password = _loginViewModel.Password
         });
 
-        var a = 6;
-        if (response is null)
-            a = 10;
-
-        await AuthStateProvider.LoginAsync(response);
-        StateHasChanged();
-        NavigationManager.NavigateTo("/client");
+        if (response.Item1 != null)
+        {
+            await AuthStateProvider.LoginAsync(response.Item1);
+            StateHasChanged();
+            NavigationManager.NavigateTo("/client");
+        }
+        else
+        {
+            var error = response.Item2;
+            _loginFailedMessage = error.Error switch
+            {
+                "UserNotFoundException" => "Vartotojo prisijungimo duomenys neteisingi",
+                "InvalidPasswordException" => "Vartotojo prisijungimo duomenys neteisingi",
+                "BadUserException" => "Vartotojo duomenys neteisingi",
+                _ => "Įvyko klaida"
+                };
+            _loginFailed = true;
+        }
     }
+
 }

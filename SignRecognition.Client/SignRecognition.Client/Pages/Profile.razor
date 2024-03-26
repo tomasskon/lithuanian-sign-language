@@ -24,7 +24,7 @@
             </MudPaper>
             <MudPaper Class="pa-4 mt-4" Style="display: flex; justify-content: space-between; align-items: center;">
                 <div></div> <!-- This empty div will push the button to the right -->
-                <MudButton EndIcon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Error" DisableElevation="true" OnClick="@DeleteUserAsync">Ištrinti</MudButton>
+                <MudButton EndIcon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" DisableElevation="true" OnClick="@DeleteUserAsync">Ištrinti</MudButton>
             </MudPaper>
         </MudItem>
     </MudGrid>
@@ -63,7 +63,6 @@
                 await AuthStateProviderService.LogoutAsync();
                 NavigationManager.NavigateTo("/client");
             }
-                
         }
     }
 }
