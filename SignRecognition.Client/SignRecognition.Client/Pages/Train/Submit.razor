@@ -34,7 +34,7 @@
                             <MudListItem>3. Sekite rodomuosius signalus ekrane</MudListItem>
                             <MudListItem>4. Atkartokite išmoktą gestą (galima keisti rankas)</MudListItem>
                             <MudListItem>5. Nebijokite suklysti, duomenys neturi būti įdealūs</MudListItem>
-                            <MudListItem>6. Po 10 įrašytų vaizdo įrašų duomenys pasiteiks automatiškai</MudListItem>
+                            <MudListItem>@($"6. Po {_videoCount} įrašytų vaizdo įrašų duomenys pasiteiks automatiškai")</MudListItem>
                         </MudList>
                     </MudCardContent>
                     <MudCardActions Alignment="Alignment.Center">
@@ -49,7 +49,7 @@
                         <CardHeaderContent>
                             @if (_recording)
                             {
-                                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Color="Color.Error" Typo="Typo.h5">Įrašinėjama</MudButton>
+                                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.RadioButtonChecked" Color="Color.Error" Typo="Typo.h5">@($"Įrašinėjama {_videos.Count + 1}/{_videoCount}")</MudButton>
                             }
                             else
                             {
@@ -87,6 +87,7 @@
     private bool _startRecording;
     private bool _recording;
     private int _seconds;
+    private int _videoCount = 10;
 
     private string _recorderStyle = "width: 0%; height: 0%;";
 
@@ -101,7 +102,7 @@
     {
         _videos.Add(recordedVideo);
 
-        if (_videos.Count() == 5)
+        if (_videos.Count() == _videoCount)
         {
             await TrainingHttpClient.SubmitTrainingDataAsync(_videos, AuthStateProviderService.CurentUser.Id, SignId);
             NavigationManager.NavigateTo("/client/train/signs");
